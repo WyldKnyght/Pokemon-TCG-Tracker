@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Cards - Pokémon TCG Tracker{% endblock %}
+
+{% block content %}
+<h1>All Cards</h1>
+
+<div class="card">
+    <h2 style="font-size: 1.25rem;">Filters</h2>
+    <form method="get" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+        <div>
+            <label>Set:</label>
+            <select name="set_id">
+                <option value="">All Sets</option>
+                {% for set in sets %}
+                <option value="{{ set.id }}" {% if filters.set_id == set.id %}selected{% endif %}>
+                    {{ set.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label>Rarity:</label>
+            <select name="rarity">
+                <option value="">All Rarities</option>
+                {% for rarity in rarities %}
+                <option value="{{ rarity }}" {% if filters.rarity == rarity %}selected{% endif %}>
+                    {{ rarity }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label>Supertype:</label>
+            <select name="supertype">
+                <option value="">All Types</option>
+                {% for supertype in supertypes %}
+                <option value="{{ supertype }}" {% if filters.supertype == supertype %}selected{% endif %}>
+                    {{ supertype }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label>Name:</label>
+            <input type="text" name="name" value="{{ filters.name or '' }}" placeholder="Search by name">
+        </div>
+
+        <div>
+            <label>Sort By:</label>
+            <select name="sort">
+                <option value="set_id" {% if filters.sort == 'set_id' %}selected{% endif %}>Set & Number</option>
+                <option value="name" {% if filters.sort == 'name' %}selected{% endif %}>Name</option>
+            </select>
+        </div>
+
+        <div style="display: flex; align-items: end; gap: 0.5rem;">
+            <button type="submit" class="btn">Apply Filters</button>
+            <a href="/cards" class="btn" style="background: var(--color-border);">Clear</a>
+        </div>
+    </form>
+</div>
+
+<p style="color: var(--color-text-muted); margin: 1rem 0;">
+    Showing {{ cards|length }} cards
+</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Set</th>
+            <th>Number</th>
+            <th>Name</th>
+            <th>Supertype</th>
+            <th>Type</th>
+            <th>Rarity</th>
+            <th>HP</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for card in cards %}
+        <tr>
+            <td>{{ card.set_id }}</td>
+            <td>{{ card.number }}</td>
+            <td><strong>{{ card.name }}</strong></td>
+            <td>{{ card.supertype or '-' }}</td>
+            <td>{{ card.types or '-' }}</td>
+            <td>{{ card.rarity or '-' }}</td>
+            <td>{{ card.hp or '-' }}</td>
+            <td>
+                <a href="/card/{{ card.id }}" class="btn" style="padding: 0.25rem 0.75rem; font-size: 0.9rem;">
+                    View
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

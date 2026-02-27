@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Pokémon TCG Tracker{% endblock %}
+
+{% block content %}
+<h1>🎴 Dashboard</h1>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+    <div class="card">
+        <h2 style="font-size: 2rem; margin: 0;">{{ stats.sets }}</h2>
+        <p style="color: var(--color-text-muted);">Sets Available</p>
+    </div>
+
+    <div class="card">
+        <h2 style="font-size: 2rem; margin: 0;">{{ stats.cards }}</h2>
+        <p style="color: var(--color-text-muted);">Cards in Database</p>
+    </div>
+
+    <div class="card">
+        <h2 style="font-size: 2rem; margin: 0;">{{ stats.unique_collected }}</h2>
+        <p style="color: var(--color-text-muted);">Unique Cards Collected</p>
+    </div>
+
+    <div class="card">
+        <h2 style="font-size: 2rem; margin: 0;">{{ stats.collection_total }}</h2>
+        <p style="color: var(--color-text-muted);">Total Cards Owned</p>
+    </div>
+</div>
+
+<div style="margin-top: 2rem;">
+    <h2>Quick Links</h2>
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <a href="/sets" class="btn">Browse Sets</a>
+        <a href="/cards" class="btn">Browse Cards</a>
+        <a href="/collection" class="btn">View Collection</a>
+    </div>
+</div>
+{% endblock %}

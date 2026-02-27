@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}{{ card.name }} - Pokémon TCG Tracker{% endblock %}
+
+{% block content %}
+<a href="/cards" style="color: var(--color-accent); text-decoration: none; margin-bottom: 1rem; display: inline-block;">
+    ← Back to Cards
+</a>
+
+<h1>{{ card.name }}</h1>
+
+<div class="card">
+    <h2>Card Information</h2>
+    <table>
+        <tr><th>ID</th><td>{{ card.id }}</td></tr>
+        <tr><th>Set</th><td>{{ card.set_model.name }} ({{ card.set_id }})</td></tr>
+        <tr><th>Number</th><td>{{ card.number }}</td></tr>
+        <tr><th>Rarity</th><td>{{ card.rarity or '-' }}</td></tr>
+        <tr><th>Supertype</th><td>{{ card.supertype or '-' }}</td></tr>
+        <tr><th>Types</th><td>{{ card.types or '-' }}</td></tr>
+        <tr><th>HP</th><td>{{ card.hp or '-' }}</td></tr>
+        <tr><th>Regulation Mark</th><td>{{ card.regulation_mark or '-' }}</td></tr>
+        <tr><th>Illustrator</th><td>{{ card.illustrators or '-' }}</td></tr>
+    </table>
+</div>
+
+<div class="card">
+    <h2>Collection Entries</h2>
+    {% if entries %}
+    <table>
+        <thead>
+            <tr>
+                <th>Language</th>
+                <th>Quantity</th>
+                <th>Condition</th>
+                <th>Location</th>
+                <th>Graded</th>
+                <th>Grade</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in entries %}
+            <tr>
+                <td>{{ entry.language }}</td>
+                <td>{{ entry.quantity }}</td>
+                <td>{{ entry.condition }}</td>
+                <td>{{ entry.location or '-' }}</td>
+                <td>{{ 'Yes' if entry.graded else 'No' }}</td>
+                <td>
+                    {% if entry.graded %}
+                        {{ entry.grade_company }} {{ entry.grade_value }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="color: var(--color-text-muted);">No collection entries yet.</p>
+    {% endif %}
+</div>
+
+<p style="margin-top: 1rem; color: var(--color-text-muted);">
+    Collection management features will be added in Phase 5.
+</p>
+{% endblock %}

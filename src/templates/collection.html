@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Collection - Pokémon TCG Tracker{% endblock %}
+
+{% block content %}
+<h1>My Collection</h1>
+
+<div class="card">
+    <h2 style="font-size: 1.25rem;">Filters</h2>
+    <form method="get" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+        <div>
+            <label>Set:</label>
+            <select name="set_id">
+                <option value="">All Sets</option>
+                {% for set in sets %}
+                <option value="{{ set.id }}" {% if filters.set_id == set.id %}selected{% endif %}>
+                    {{ set.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label>Language:</label>
+            <select name="language">
+                <option value="">All Languages</option>
+                {% for lang in languages %}
+                <option value="{{ lang }}" {% if filters.language == lang %}selected{% endif %}>
+                    {{ lang }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label>Condition:</label>
+            <select name="condition">
+                <option value="">All Conditions</option>
+                {% for cond in conditions %}
+                <option value="{{ cond }}" {% if filters.condition == cond %}selected{% endif %}>
+                    {{ cond }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div style="display: flex; align-items: end; gap: 0.5rem;">
+            <button type="submit" class="btn">Apply Filters</button>
+            <a href="/collection" class="btn" style="background: var(--color-border);">Clear</a>
+        </div>
+    </form>
+</div>
+
+<p style="color: var(--color-text-muted); margin: 1rem 0;">
+    Showing {{ entries|length }} collection entries
+</p>
+
+{% if entries %}
+<table>
+    <thead>
+        <tr>
+            <th>Card</th>
+            <th>Set</th>
+            <th>Language</th>
+            <th>Quantity</th>
+            <th>Condition</th>
+            <th>Location</th>
+            <th>Graded</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for entry in entries %}
+        <tr>
+            <td><strong>{{ entry.card.name }}</strong></td>
+            <td>{{ entry.card.set_id }}</td>
+            <td>{{ entry.language }}</td>
+            <td>{{ entry.quantity }}</td>
+            <td>{{ entry.condition }}</td>
+            <td>{{ entry.location or '-' }}</td>
+            <td>
+                {% if entry.graded %}
+                    {{ entry.grade_company }} {{ entry.grade_value }}
+                {% else %}
+                    No
+                {% endif %}
+            </td>
+            <td>
+                <a href="/card/{{ entry.card_id }}" class="btn" style="padding: 0.25rem 0.75rem; font-size: 0.9rem;">
+                    View Card
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="card">
+    <p style="color: var(--color-text-muted);">No collection entries yet. Add cards from the card detail pages.</p>
+</div>
+{% endif %}
+{% endblock %}

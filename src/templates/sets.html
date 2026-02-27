@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Sets - Pokémon TCG Tracker{% endblock %}
+
+{% block content %}
+<h1>All Sets</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Set ID</th>
+            <th>Name</th>
+            <th>Series</th>
+            <th>Cards</th>
+            <th>Release Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for set in sets %}
+        <tr>
+            <td>{{ set.id }}</td>
+            <td><strong>{{ set.name }}</strong></td>
+            <td>{{ set.series or '-' }}</td>
+            <td>{{ set.printed_total or '-' }}</td>
+            <td>{{ set.release_date or '-' }}</td>
+            <td>
+                <a href="/cards?set_id={{ set.id }}" class="btn" style="padding: 0.25rem 0.75rem; font-size: 0.9rem;">
+                    View Cards
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

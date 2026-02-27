@@ -1,0 +1,4 @@
+pokemontcgsdk
+SQLAlchemy
+Flask
+python-dotenv
